@@ -4,6 +4,8 @@ from tensorflow.keras.models import load_model
 from sklearn.metrics import confusion_matrix, classification_report
 import seaborn
 from data_loader import get_data_generators
+from train import MODEL_SAVE_PATH, DATASET_DIR
+
 
 def evaluate_model(model_path, dataset_dir):
     # ucitavanje modela i podataka
@@ -57,7 +59,7 @@ def visualize_errors(val_gen, y_true, y_pred):
     plt.show()
 
 if __name__ == "__main__":
-    evaluate_model('models/mask_detector_v1.keras', 'dataset')
+    evaluate_model(MODEL_SAVE_PATH, DATASET_DIR)
 
 
 

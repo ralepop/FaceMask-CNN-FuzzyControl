@@ -3,17 +3,20 @@ import matplotlib.pyplot as plt
 from data_loader import extract_data, get_class_distribution, get_data_generators
 from model_builder import build_cnn, compile_model
 
-ZIP_PATH = 'dataset.zip'
-DATASET_DIR = 'dataset/'
-MODEL_SAVE_PATH = 'models/mask_detector_v1.keras'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ZIP_PATH = os.path.join(BASE_DIR, 'dataset.zip')
+DATASET_DIR = os.path.join(BASE_DIR, 'dataset/data')
+DATASET_EXTRACT_DIR = os.path.join(BASE_DIR, 'dataset')
+MODEL_SAVE_PATH = os.path.join(BASE_DIR, 'models/mask_detector_v1.keras')
+REPORTS_DIR = os.path.join(BASE_DIR, 'reports')
 EPOCHS = 15
 BATCH_SIZE = 32
 
 def main():
-    extract_data(ZIP_PATH, DATASET_DIR)
+    extract_data(ZIP_PATH, DATASET_EXTRACT_DIR)
 
     # histogram
-    get_class_distribution(DATASET_DIR)
+    get_class_distribution(DATASET_DIR, REPORTS_DIR)
 
     # generatori
     train_gen, val_gen = get_data_generators(DATASET_DIR, batch_size = BATCH_SIZE)
@@ -27,9 +30,9 @@ def main():
 
     # trening
     print("Pocetak treninga...")
-    if not os.path.exists('models'):
-        os.makedirs('models')
-    model.save(MODEL_SAVE_PATH)
+    if not os.path.exists(REPORTS_DIR):
+        os.makedirs(REPORTS_DIR)
+
     print(f"Model sacuvan na: {MODEL_SAVE_PATH}")
 
     history = model.fit(
@@ -37,6 +40,9 @@ def main():
         validation_data = val_gen,
         epochs = EPOCHS
     )
+
+    model.save(MODEL_SAVE_PATH)
+    print(f"Model uspesno istreniran i sacuvan na: {MODEL_SAVE_PATH}")
 
     # grafik performansi
     plt.figure(figsize = (12, 4))
@@ -55,7 +61,7 @@ def main():
     plt.title('Gubitak tokom epoha')
     plt.legend()
 
-    plt.savefig('reports/performance_graphs.png')
+    plt.savefig(os.path.join(REPORTS_DIR, 'performance_graphs.png'))
     plt.show()
 
 if __name__ == "__main__":
