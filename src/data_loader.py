@@ -41,4 +41,5 @@ def get_data_generators(data_path, target_size = (128, 128), batch_size = 32):
         validation_split = 0.2      # automatsko odvajanje 20% za test/validaciju
     )
 
-    train_gen = datagen.
+
+print("radi")
