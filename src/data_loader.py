@@ -1,4 +1,4 @@
-# Ucitavanje, analiza i augmentacija
+# ucitavanje, analiza i augmentacija
 
 import zipfile
 import os
@@ -41,5 +41,22 @@ def get_data_generators(data_path, target_size = (128, 128), batch_size = 32):
         validation_split = 0.2      # automatsko odvajanje 20% za test/validaciju
     )
 
+    train_gen = datagen.flow_from_directory(
+        data_path,
+        target_size = target_size,
+        batch_size = batch_size,
+        class_mode = 'binary',      # jer imamo dve klase
+        subset = 'training',
+        shuffle = True
+    )
 
-print("radi")
+    val_gen = datagen.flow_from_directory(
+        data_path,
+        target_size = target_size,
+        batch_size = batch_size,
+        class_mode = 'binary',
+        subset = 'validation',
+        shuffle = False             # ne mesamo validaciju
+    )
+
+    return train_gen, val_gen
