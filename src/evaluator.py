@@ -1,10 +1,10 @@
-import numpy as np
+import os
 import matplotlib.pyplot as plt
 from tensorflow.keras.models import load_model
 from sklearn.metrics import confusion_matrix, classification_report
 import seaborn
 from data_loader import get_data_generators
-from train import MODEL_SAVE_PATH, DATASET_DIR
+from train import MODEL_SAVE_PATH, DATASET_DIR, REPORTS_DIR
 
 
 def evaluate_model(model_path, dataset_dir):
@@ -28,7 +28,7 @@ def evaluate_model(model_path, dataset_dir):
     plt.xlabel('Predvidjeno')
     plt.ylabel('Stvarno')
     plt.title('Matrica konfuzije')
-    plt.savefig('reports/confusion_matrix.png')
+    plt.savefig(os.path.join(REPORTS_DIR, 'confusion_matrix.png'))
     plt.show()
 
     # classification report (tacnost, preciznost)
@@ -55,7 +55,7 @@ def visualize_errors(val_gen, y_true, y_pred):
         plt.axis('off')
 
     plt.tight_layout()
-    plt.savefig('reports/sample_predictions.png')
+    plt.savefig(os.path.join(REPORTS_DIR, 'sample_predictions.png'))
     plt.show()
 
 if __name__ == "__main__":
