@@ -3,3 +3,4 @@ dataset/
 dataset.zip
 .venv/
 .idea/
+src/__pycache__/

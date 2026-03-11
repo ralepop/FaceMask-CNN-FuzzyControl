@@ -58,5 +58,5 @@ def main():
     plt.savefig('reports/performance_graphs.png')
     plt.show()
 
-if __name__ == "_main__":
+if __name__ == "__main__":
     main()
